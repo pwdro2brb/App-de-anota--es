@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from .models import User
+from . import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint('auth', __name__)
 
@@ -30,8 +33,13 @@ def sign_up():
         elif len(password1) < 7:
            flash('A senha deve conter no mínimo 7 caracteres ', category='error')
         else:
+           new_user= User(email=email, firstName=firstName, password=generate_password_hash(password1, method='sha256'))
+           db.session.add(new_user)
+           db.session.commit()
+           
            flash('Conta criada!!!!! ', category='success')
            #adiciona o usuário no banco de dados
+           
     
     return render_template("sign-up.html")
 
