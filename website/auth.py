@@ -19,25 +19,24 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
-        firstName = request.form.get('first-name')
+        first_name = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-               
-               
-        if len(email) < 4 :
-           flash('O email deve conter mais de que 4 caracteres. ', category='error')
-        elif len(firstName) < 2:
-           flash('O nome deve conter mais de que 1 caracter ', category='error')
+
+        if len(email) < 4:
+            flash('O email tem que ser maior que 3 cracteres', category='error')
+        elif len(first_name) < 2:
+            flash('O nome tem que ser maior que 1 cracteres', category='error')
         elif password1 != password2:
-           flash('As senhas não estão iguais ', category='error')
+            flash('Senhas diferentes', category='error')
         elif len(password1) < 7:
-           flash('A senha deve conter no mínimo 7 caracteres ', category='error')
+            flash('A senha tem que ser maior que 7 cracteres', category='error')
         else:
-           new_user= User(email=email, firstName=firstName, password=generate_password_hash(password1, method='sha256'))
-           db.session.add(new_user)
-           db.session.commit()
-           
-           flash('Conta criada!!!!! ', category='success')
+            new_user = User(email=email, first_name=first_name, password=generate_password_hash(
+                password1, method='sha256'))
+            db.session.add(new_user)
+            flash('Conta criada!!!', category='success')
+            return redirect(url_for('views.home'))
            #adiciona o usuário no banco de dados
            
     
