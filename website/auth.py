@@ -63,4 +63,4 @@ def sign_up():
             flash('Conta criada !!!', category='success')
             return redirect(url_for('views.home'))
 
-    return render_template("sign-up.html")
+    return render_template("sign-up.html", user = current_user)
