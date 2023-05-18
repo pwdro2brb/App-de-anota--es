@@ -42,6 +42,7 @@ def sign_up():
         first_name = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        
         user = User.query.filter_by(email=email).first()
        
         if user:
@@ -59,7 +60,7 @@ def sign_up():
                 password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()  
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             flash('Conta criada !!!', category='success')
             return redirect(url_for('views.home'))
 
